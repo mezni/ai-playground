@@ -1,3 +1,5 @@
+from typing import Any
+
 import anthropic
 from src.config import settings
 
@@ -15,15 +17,19 @@ class ClaudeProvider:
         assistant_message = {"role": "assistant", "content": text}
         self.messages.append(assistant_message)
 
-    def generate(self, message: str, system=None) -> str:
+    def generate(
+        self,
+        message: str,
+        system: str | None = None,
+        response_model: type[Any] | None = None,
+    ) -> Any:
         self.add_user_message(message)
-        response = self._create_response(system)
+        response = self._create_response(system, response_model)
         text = response.content[0].text
         self.add_assistant_message(text)
-        return text
+        return response.parsed_output if response_model else text
 
-    def _create_response(self, system):
-
+    def _create_response(self, system, response_model: type[Any] | None = None):
         params = {
             "model": settings.anthropic_model,
             "max_tokens": 1000,
@@ -31,7 +37,11 @@ class ClaudeProvider:
         }
         if system:
             params["system"] = system
+        if response_model:
+            params["output_format"] = response_model
         try:
+            if response_model:
+                return self.client.messages.parse(**params)
             return self.client.messages.create(**params)
 
         except anthropic.AuthenticationError as exc:
