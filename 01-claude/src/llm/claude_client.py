@@ -15,21 +15,25 @@ class ClaudeProvider:
         assistant_message = {"role": "assistant", "content": text}
         self.messages.append(assistant_message)
 
-    def generate(self, message: str) -> str:
+    def generate(self, message: str, system=None) -> str:
         self.add_user_message(message)
-        response = self._create_response()
+        response = self._create_response(system)
         text = response.content[0].text
         self.add_assistant_message(text)
         return text
 
-    def _create_response(self):
+    def _create_response(self, system):
+
+        params = {
+            "model": settings.anthropic_model,
+            "max_tokens": 1000,
+            "messages": self.messages,
+        }
+        if system:
+            params["system"] = system
         try:
-            return self.client.messages.create(
-                model=settings.anthropic_model,
-                system="You are a helpful assistant.",
-                max_tokens=1024,
-                messages=self.messages,
-            )
+            return self.client.messages.create(**params)
+
         except anthropic.AuthenticationError as exc:
             raise RuntimeError("Provider authentication failed") from exc
 
