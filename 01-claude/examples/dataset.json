@@ -1,0 +1,20 @@
+[
+  {
+    "id": "ship_free",
+    "context": "Standard shipping costs $5 and takes 3-5 days. Orders over $50 get free standard shipping.",
+    "query": "Do I pay for shipping on a $65 order?",
+    "must_include": ["free"]
+  },
+  {
+    "id": "ship_paid",
+    "context": "Standard shipping costs $5 and takes 3-5 days. Orders over $50 get free standard shipping.",
+    "query": "How much is shipping for a $20 t-shirt?",
+    "must_include": ["$5", "3-5"]
+  },
+  {
+    "id": "ship_boundary",
+    "context": "Standard shipping costs $5 and takes 3-5 days. Orders over $50 get free standard shipping.",
+    "query": "Is shipping free on a $50 order?",
+    "must_include": ["$5"]
+  }
+]

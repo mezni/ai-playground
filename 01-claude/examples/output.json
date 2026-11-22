@@ -1,0 +1,81 @@
+[
+  {
+    "output": "No. Your $65 order qualifies for free standard shipping because it's over $50.",
+    "test_case": {
+      "id": "ship_free",
+      "context": "Standard shipping costs $5 and takes 3-5 days. Orders over $50 get free standard shipping.",
+      "query": "Do I pay for shipping on a $65 order?",
+      "must_include": [
+        "free"
+      ]
+    },
+    "score": 10,
+    "evaluation": {
+      "strengths": [
+        "Directly answers the question with a clear yes/no response",
+        "Provides logical reasoning by referencing the $50 threshold condition",
+        "Concise and easy to understand without unnecessary elaboration"
+      ],
+      "weaknesses": [
+        "Assumes a shipping policy without verification or stating assumptions explicitly",
+        "Doesn't mention potential exceptions (expedited shipping costs, restricted items, international orders)",
+        "Lacks qualification language such as 'typically' or 'usually' that would account for policy variations"
+      ],
+      "reasoning": "The solution provides a straightforward answer with supporting logic, but it makes a definitive claim about a shipping policy without disclaiming that this is based on an assumed policy. While the reasoning is sound if the $50 free shipping threshold is accurate, a more robust answer would acknowledge limitations, potential exceptions, or suggest verifying with official shipping policies. The response is helpful for a likely scenario but could mislead if the actual policy differs.",
+      "score": 6
+    }
+  },
+  {
+    "output": "According to the policy, shipping for a $20 t-shirt costs **$5**.\n\nSince the order is under $50, it does not qualify for free standard shipping.",
+    "test_case": {
+      "id": "ship_paid",
+      "context": "Standard shipping costs $5 and takes 3-5 days. Orders over $50 get free standard shipping.",
+      "query": "How much is shipping for a $20 t-shirt?",
+      "must_include": [
+        "$5",
+        "3-5"
+      ]
+    },
+    "score": 5,
+    "evaluation": {
+      "strengths": [
+        "Provides a specific answer to the direct question asked",
+        "Explains the reasoning by referencing a shipping policy threshold",
+        "Uses clear formatting to highlight the key information"
+      ],
+      "weaknesses": [
+        "No reference or source provided for the stated shipping policy",
+        "Assumes a specific shipping policy without establishing what policy applies",
+        "Does not acknowledge uncertainty or offer to verify the information from official documentation"
+      ],
+      "reasoning": "The response provides a definitive answer with supporting logic, which is helpful for a straightforward question. However, it presents assumed information as fact without citing the actual policy source or acknowledging that shipping costs vary by retailer and cannot be determined without knowing which store or vendor is being referenced. For a task requiring factual accuracy about pricing, the lack of source verification is a significant limitation.",
+      "score": 5
+    }
+  },
+  {
+    "output": "Yes, shipping is free on a $50 order. According to the policy, orders over $50 get free standard shipping, and a $50 order qualifies for this benefit.",
+    "test_case": {
+      "id": "ship_boundary",
+      "context": "Standard shipping costs $5 and takes 3-5 days. Orders over $50 get free standard shipping.",
+      "query": "Is shipping free on a $50 order?",
+      "must_include": [
+        "$5"
+      ]
+    },
+    "score": 10,
+    "evaluation": {
+      "strengths": [
+        "Provides a clear and direct answer to the question",
+        "Attempts to reference a specific policy regarding the $50 threshold",
+        "Uses logical reasoning to connect the order amount to the stated policy"
+      ],
+      "weaknesses": [
+        "No source citation or verification of the stated policy - the policy is claimed but not documented",
+        "Ambiguous boundary condition handling - states 'over $50' but then claims '$50 exactly' qualifies, creating a logical inconsistency",
+        "Cannot be validated without access to actual shipping policy documentation"
+      ],
+      "reasoning": "The response provides a definitive answer but lacks credibility due to undefined policy sources and an internal contradiction regarding whether the threshold is 'over $50' or 'at $50'. The answer structure is good, but the content cannot be verified without actual policy documentation. A $50 order may or may not qualify depending on whether the policy uses 'over' (exclusive) or 'at least/minimum' (inclusive) language.",
+      "score": 4
+    }
+  }
+]
